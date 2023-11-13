@@ -2,7 +2,7 @@
     --white: rgb(244, 244, 244);
     --black: rgb(21, 21, 21);
     --lightgrey: rgb(217, 217, 217);
-    --darkgrey: rgb(30, 30, 30);
+    --darkgrey: rgb(175, 175, 175);
 }
 
 *,
@@ -107,6 +107,10 @@ footer a {
 
 .weekday div {
     padding: 5px 10px;
+}
+
+.param-grid {
+    transition: all 0.3s ease-in-out;
 }
 
 .param-grid .row {

@@ -11,9 +11,10 @@ async function updateWeatherForCity(city) {
 
         if (weatherData && weatherData.location && weatherData.current && weatherData.forecast) {
             const main = getMainElement();
-            main.innerHTML = '';
+            main.innerHTML = ''; 
             createWeatherCard(weatherData);
             createForecastGroup(weatherData);
+            updateParamGridValues(weatherData); 
         } else {
             if (city !== 'Melbourne') {
                 updateWeatherForCity('Melbourne');
@@ -25,6 +26,15 @@ async function updateWeatherForCity(city) {
             updateWeatherForCity('Melbourne');
         }
     }
+}
+
+
+function updateCityWeather(cityDiv) {
+    let newCity = cityDiv.textContent.trim();
+    if (!newCity) {
+        newCity = 'Melbourne';
+    }
+    updateWeatherForCity(newCity);
 }
 
 
@@ -41,14 +51,6 @@ function addCityEditListener() {
             updateCityWeather(cityDiv);
         }
     });
-}
-
-function updateCityWeather(cityDiv) {
-    let newCity = cityDiv.textContent.trim();
-    if (!newCity) {
-        newCity = 'Melbourne';
-    }
-    updateWeatherForCity(newCity);
 }
 
 function getMainElement() {
@@ -113,11 +115,8 @@ function getWeekday(dateString) {
     return date.toLocaleDateString('en-US', { weekday: 'long' });
 }
 
-function createParaGrid(weatherData) {
-    const main = getMainElement();
-    if (!main) return;
-
-    const parameters = [
+function getParamGridData(weatherData) {
+    return [
         [
             { name: "Sunrise", value: weatherData.forecast.forecastday[0].astro.sunrise },
             { name: "Sunset", value: weatherData.forecast.forecastday[0].astro.sunset },
@@ -133,41 +132,72 @@ function createParaGrid(weatherData) {
             { name: "Precipitation", value: `${weatherData.current.precip_mm} mm` }
         ]
     ];
+}
 
-    const paramGrid = document.createElement('div');
-    paramGrid.className = 'param-grid';
+function createParamGrid(weatherData) {
+    const main = getMainElement();
+    if (!main) return;
 
-    parameters.forEach(rowParams => {
+    let paramGrid = document.getElementById('param-grid');
+    if (!paramGrid) {
+        paramGrid = document.createElement('div');
+        paramGrid.id = 'param-grid';
+        paramGrid.className = 'param-grid';
+    } else {
+        paramGrid.innerHTML = '';
+    }
+
+    const parameters = getParamGridData(weatherData);
+
+    parameters.forEach((rowParams, rowIndex) => {
         const row = document.createElement('div');
         row.className = 'row';
 
-        rowParams.forEach(param => {
-            const paramGroup = document.createElement('div');
-            paramGroup.className = 'param-pair';
+        rowParams.forEach((param, paramIndex) => {
+            const paramPair = document.createElement('div');
+            paramPair.className = 'param-pair';
 
             const paramName = document.createElement('p');
             paramName.textContent = param.name;
 
             const paramValue = document.createElement('p');
+            paramValue.id = `param-value-${rowIndex}-${paramIndex}`;
             paramValue.textContent = param.value;
 
-            paramGroup.appendChild(paramName);
-            paramGroup.appendChild(paramValue);
-            row.appendChild(paramGroup);
+            paramPair.appendChild(paramName);
+            paramPair.appendChild(paramValue);
+            row.appendChild(paramPair);
         });
 
         paramGrid.appendChild(row);
     });
 
-    main.insertAdjacentElement('afterend', paramGrid);
+    if (!paramGrid.parentElement) {
+        main.insertAdjacentElement('afterend', paramGrid);
+    }
+}
+
+function updateParamGridValues(weatherData) {
+    const parameters = getParamGridData(weatherData);
+
+    parameters.forEach((rowParams, rowIndex) => {
+        rowParams.forEach((param, paramIndex) => {
+            const paramValueElement = document.getElementById(`param-value-${rowIndex}-${paramIndex}`);
+            if (paramValueElement) {
+                paramValueElement.textContent = param.value; // Update the value
+            }
+        });
+    });
 }
 
 
 // test functionality
 const city = 'niigata';
-getWeather(city)
-    .then(data => createWeatherCard(data));
+async function init(city) {
+    const data = await getWeather(city); 
+    createWeatherCard(data);
+    createForecastGroup(data);
+    createParamGrid(data);
+}
 
-getWeather(city).then(data => createForecastGroup(data));
-
-getWeather(city).then(data => createParaGrid(data));
+init(city);
