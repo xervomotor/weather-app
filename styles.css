@@ -1,7 +1,7 @@
 :root {
     --white: rgb(244, 244, 244);
     --black: rgb(21, 21, 21);
-    --lightgrey: rgb(222, 222, 222);
+    --lightgrey: rgb(217, 217, 217);
     --darkgrey: rgb(30, 30, 30);
 }
 
@@ -11,6 +11,14 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+}
+
+*:hover {
+    cursor:default ;
+}
+
+*::selection {
+    background-color: transparent;
 }
 
 html {
@@ -93,4 +101,18 @@ footer a {
 .parameter-group {
     padding: 30px 60px;
     text-align: center;
+}
+
+.weather-location:focus {
+    outline: none; 
+    border: none; 
+    background-color: transparent;
+}
+
+.weather-location::selection {
+    background-color: var(--lightgrey);
+}
+
+.weather-location:hover {
+    cursor: text;
 }

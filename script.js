@@ -22,16 +22,19 @@ function addCityEditListener() {
         updateCityWeather(cityDiv);
     });
 
-    cityDiv.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') { 
-            event.preventDefault(); 
+    cityDiv.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { 
+            e.preventDefault(); 
             updateCityWeather(cityDiv);
         }
     });
 }
 
 function updateCityWeather(cityDiv) {
-    const newCity = cityDiv.textContent.trim();
+    let newCity = cityDiv.textContent.trim();
+    if (!newCity) {
+        newCity = 'Melbourne';
+    }
     updateWeatherForCity(newCity);
 }
 
