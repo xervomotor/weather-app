@@ -81,6 +81,12 @@ footer a {
     padding: 5px 10px;
 }
 
+.weather-details {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 100px 200px;
+    gap: 0;
+}
 
 
 @media (max-width: 768px) { 
