@@ -5,6 +5,36 @@ async function getWeather(city) {
     return data;
 } 
 
+async function updateWeatherForCity(city) {
+    const weatherData = await getWeather(city);
+    if (weatherData) {
+        const main = getMainElement();
+        main.innerHTML = '';
+        createWeatherCard(weatherData);
+        createForecastGroup(weatherData);
+    }
+}
+
+function addCityEditListener() {
+    const cityDiv = document.querySelector('.weather-location');
+
+    cityDiv.addEventListener('blur', function() {
+        updateCityWeather(cityDiv);
+    });
+
+    cityDiv.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') { 
+            event.preventDefault(); 
+            updateCityWeather(cityDiv);
+        }
+    });
+}
+
+function updateCityWeather(cityDiv) {
+    const newCity = cityDiv.textContent.trim();
+    updateWeatherForCity(newCity);
+}
+
 function getMainElement() {
     const main = document.querySelector('main');
     if (!main) {
@@ -20,13 +50,14 @@ function createWeatherCard(weatherData) {
 
     const weatherCardHtml = `
         <div class="weather-card">
-            <div class="weather-location">${weatherData.location.name}</div>
+            <div class="weather-location" contenteditable="true">${weatherData.location.name}</div>
             <div class="weather-condition">${weatherData.current.condition.text}</div>
             <div class="weather-temperature">${weatherData.current.temp_c} °C</div>
         </div>
     `;
 
     main.insertAdjacentHTML('afterbegin', weatherCardHtml);
+    addCityEditListener();
 }
 
 
@@ -42,7 +73,7 @@ function createForecastGroup(weatherData) {
         weekdayDiv.className = 'weekday';
 
         const dayDiv = document.createElement('div');
-        dayDiv.textContent = day.date;
+        dayDiv.textContent = getWeekday(day.date);
 
         const conditionDiv = document.createElement('div');
         conditionDiv.textContent = day.day.condition.text;
@@ -60,10 +91,15 @@ function createForecastGroup(weatherData) {
     main.appendChild(forecastContainer);
 }
 
+function getWeekday(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { weekday: 'long' });
+}
+
 
 
 // test functionality
-const city = 'melbourne';
+const city = 'niigata';
 getWeather(city)
     .then(data => createWeatherCard(data));
 
