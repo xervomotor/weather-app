@@ -1,0 +1,116 @@
+:root {
+    --white: rgb(244, 244, 244);
+    --black: rgb(21, 21, 21);
+    --lightgrey: rgb(222, 222, 222);
+    --darkgrey: rgb(30, 30, 30);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 200px 200px 100px 200px;
+}
+
+main>div {
+    padding: 100px;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+footer a {
+    text-decoration: underline;
+    color: var(--black);
+}
+
+.weather-card {
+    text-align: center;
+    max-width: 600px;
+}
+
+.weather-location {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.weather-condition {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.weather-temperature {
+    font-size: 6rem;
+    font-weight: bold;
+}
+
+.weekday {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.weekday div {
+    padding: 5px 10px;
+}
+
+
+
+@media (max-width: 768px) { 
+    #gameboard {
+        padding: 50px; 
+    }
+
+    main {
+        padding: 200px; 
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) { 
+    html {
+        font-size: 16px; 
+    }
+
+    #gameboard {
+        padding: 20px 20px 40px 20px; 
+    }
+
+    main {
+        padding: 140px 50px 50px 50px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
