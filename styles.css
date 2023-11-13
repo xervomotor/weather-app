@@ -70,7 +70,23 @@ footer a {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 10px;
+    transition: all 0.3s ease-in-out;
 }
+
+.weather-location:hover,
+.weather-location:focus {
+    cursor: text;
+    outline: none; 
+    border: none; 
+    background-color: transparent;
+    transform: translateY(-4px);
+    font-size: 3rem;
+}
+
+.weather-location::selection {
+    background-color: var(--lightgrey);
+}
+
 
 .weather-condition {
     font-size: 2rem;
@@ -93,26 +109,13 @@ footer a {
     padding: 5px 10px;
 }
 
-.weather-details .row {
+.param-grid .row {
     display: flex;
     flex-direction: row;
 }
 
-.parameter-group {
+.param-pair {
+    width: 240px;
     padding: 30px 60px;
     text-align: center;
-}
-
-.weather-location:focus {
-    outline: none; 
-    border: none; 
-    background-color: transparent;
-}
-
-.weather-location::selection {
-    background-color: var(--lightgrey);
-}
-
-.weather-location:hover {
-    cursor: text;
 }

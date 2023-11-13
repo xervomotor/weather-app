@@ -6,14 +6,27 @@ async function getWeather(city) {
 } 
 
 async function updateWeatherForCity(city) {
-    const weatherData = await getWeather(city);
-    if (weatherData) {
-        const main = getMainElement();
-        main.innerHTML = '';
-        createWeatherCard(weatherData);
-        createForecastGroup(weatherData);
+    try {
+        const weatherData = await getWeather(city);
+
+        if (weatherData && weatherData.location && weatherData.current && weatherData.forecast) {
+            const main = getMainElement();
+            main.innerHTML = '';
+            createWeatherCard(weatherData);
+            createForecastGroup(weatherData);
+        } else {
+            if (city !== 'Melbourne') {
+                updateWeatherForCity('Melbourne');
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        if (city !== 'Melbourne') {
+            updateWeatherForCity('Melbourne');
+        }
     }
 }
+
 
 function addCityEditListener() {
     const cityDiv = document.querySelector('.weather-location');
@@ -99,6 +112,54 @@ function getWeekday(dateString) {
     return date.toLocaleDateString('en-US', { weekday: 'long' });
 }
 
+function createParaGrid(weatherData) {
+    const main = getMainElement();
+    if (!main) return;
+
+    const parameters = [
+        [
+            { name: "Sunrise", value: weatherData.forecast.forecastday[0].astro.sunrise },
+            { name: "Sunset", value: weatherData.forecast.forecastday[0].astro.sunset },
+            { name: "Chance of Rain", value: `${weatherData.forecast.forecastday[0].day.daily_chance_of_rain} %` },
+            { name: "Humidity", value: `${weatherData.current.humidity} %` },
+            { name: "Wind", value: `${weatherData.current.wind_kph} km/h` }
+        ],
+        [
+            { name: "Feels Like", value: `${weatherData.current.feelslike_c} °C` },
+            { name: "Visibility", value: `${weatherData.current.vis_km} km` },
+            { name: "Pressure", value: `${weatherData.current.pressure_mb} hPa` },
+            { name: "UV Index", value: weatherData.current.uv },
+            { name: "Precipitation", value: `${weatherData.current.precip_mm} mm` }
+        ]
+    ];
+
+    const paramGrid = document.createElement('div');
+    paramGrid.className = 'param-grid';
+
+    parameters.forEach(rowParams => {
+        const row = document.createElement('div');
+        row.className = 'row';
+
+        rowParams.forEach(param => {
+            const paramGroup = document.createElement('div');
+            paramGroup.className = 'param-pair';
+
+            const paramName = document.createElement('p');
+            paramName.textContent = param.name;
+
+            const paramValue = document.createElement('p');
+            paramValue.textContent = param.value;
+
+            paramGroup.appendChild(paramName);
+            paramGroup.appendChild(paramValue);
+            row.appendChild(paramGroup);
+        });
+
+        paramGrid.appendChild(row);
+    });
+
+    main.insertAdjacentElement('afterend', paramGrid);
+}
 
 
 // test functionality
@@ -107,3 +168,5 @@ getWeather(city)
     .then(data => createWeatherCard(data));
 
 getWeather(city).then(data => createForecastGroup(data));
+
+getWeather(city).then(data => createParaGrid(data));
