@@ -1,3 +1,3 @@
 # weather-app
 
-demo @ https://xtang999.github.io/weather-app/
+demo @ https://xtang-weather-app.netlify.app/
