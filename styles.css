@@ -116,21 +116,25 @@ footer a {
 
 .param-grid {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0 300px;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
 .param-grid .row {
     display: flex;
-    flex-direction: row;
+    width: 100%;
+    justify-content: space-around; 
+    margin-bottom: 20px;
 }
 
 .param-pair {
-    padding: 20px 50px;
-    text-align: center;
-    max-width: 300px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    flex: 1; 
+    padding: 0 40px 0 40px; 
+    text-align: center; 
+    width: 240px;
 }
 
 footer {
@@ -143,15 +147,7 @@ a:hover {
 
 @media (max-width: 1450px) {
     main {
-        padding: 180px 0 60px 0;
-    }
-
-    main > div {
-        padding: 80px 100px 30px 100px;
-    }
-
-    .param-grid {
-        padding: 0 100px;
+        padding: 160px 0 0 0;
     }
 
     .weather-location {
@@ -170,7 +166,7 @@ a:hover {
 
 
 
-@media (max-width: 1050px) {
+@media (max-width: 1150px) {
     main {
         flex-direction: column;
         padding: 80px 50px 0 50px;
