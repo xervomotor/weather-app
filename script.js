@@ -112,7 +112,7 @@ function createForecastGroup(weatherData) {
 
 function getWeekday(dateString) {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { weekday: 'long' });
+    return date.toLocaleDateString('en-US', { weekday: 'short' });
 }
 
 function getParamGridData(weatherData) {

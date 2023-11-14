@@ -46,7 +46,7 @@ main {
 }
 
 main>div {
-    padding: 100px;
+    padding: 100px 80px;
 }
 
 footer {
@@ -98,15 +98,20 @@ footer a {
     font-weight: bold;
 }
 
+.weather-forecast {
+    max-width: 1000px;
+}
+
 .weekday {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 5px 0; 
 }
 
 .weekday div {
-    padding: 5px 10px;
+    padding: 0 20px;
 }
 
 .param-grid {
@@ -165,7 +170,7 @@ a:hover {
 
 
 
-@media (max-width: 1000px) {
+@media (max-width: 1050px) {
     main {
         flex-direction: column;
         padding: 80px 50px 0 50px;
