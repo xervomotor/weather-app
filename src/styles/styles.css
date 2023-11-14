@@ -40,6 +40,7 @@ body {
 header {
     padding: 280px 0 0 0;
     color: var(--darkgrey);
+    text-align: center;
 }
 
 main {
@@ -241,6 +242,10 @@ a:hover {
 @media (max-width: 480px) {
     html {
         font-size: 16px; 
+    }
+
+    header {
+        padding: 80px 30px 10px 30px;
     }
 
     .weather-location {
